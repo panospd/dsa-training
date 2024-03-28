@@ -1,25 +1,24 @@
 function islands(arr) {
     console.log(arr);
-    const visited = [];
     let islands = 0;
 
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[0].length; j++) {
-            if (arr[i][j] === 1 && !alreadyVisitedAt(visited, i, j)) {
-                islands += mapIsland(arr, [i, j], visited);
+            if (arr[i][j] === 1) {
+                islands += mapIsland(arr, [i, j]);
             }
         }
     }
     return islands;
 }
 
-function mapIsland(arr, item, visited) {
+function mapIsland(arr, item) {
     if (arr[item[0]][item[1]] !== 1) return 0;
 
     const q = [];
 
     q.push(item);
-    markAsVisited(visited, item);
+    arr[item[0]][item[1]] = 0;
 
     const directions = resolveDirections(arr);
 
@@ -27,22 +26,14 @@ function mapIsland(arr, item, visited) {
         const cur = q.shift();
         for (let dir in directions) {
             const child = directions[dir](...cur);
-            if (
-                child !== null &&
-                !alreadyVisitedAt(visited, ...child) &&
-                arr[child[0]][child[1]] === 1
-            ) {
+            if (child !== null && arr[child[0]][child[1]] === 1) {
                 q.push(child);
-                markAsVisited(visited, child);
+                arr[child[0]][child[1]] = 0;
             }
         }
     }
 
     return 1;
-}
-
-function alreadyVisitedAt(visited, r, c) {
-    return visited[r] !== undefined && visited[r][c] != undefined;
 }
 
 function resolveDirections(arr) {
@@ -60,14 +51,6 @@ function resolveDirections(arr) {
             return j > 0 ? [i, j - 1] : null;
         },
     };
-}
-
-function markAsVisited(visited, [i, j]) {
-    if (visited[i] === undefined) {
-        visited[i] = [];
-    }
-
-    visited[i][j] = true;
 }
 
 const arr = [
