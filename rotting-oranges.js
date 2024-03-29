@@ -15,7 +15,7 @@ function rottingOranges(arr) {
                 fresh--;
                 arr[item[0]][item[1]] = 2;
                 rotten.push({ i: item[0], j: item[1] });
-                if (qLength === 0) {
+                if (qLength === 0 && rotten.length > 0) {
                     maxMinutes++;
                     qLength = rotten.length;
                 }
