@@ -6,14 +6,12 @@ function rottingOranges(arr) {
     let maxMinutes = 0;
     while (rotten.length > 0) {
         const { i, j, minute } = rotten.shift();
-
         maxMinutes = Math.max(maxMinutes, minute);
 
         for (let dir in directions) {
             const item = directions[dir](i, j);
             if (item !== null && arr[item[0]][item[1]] === 1) {
-                const key = `${item[0]}-${item[[1]]}`;
-                delete fresh[key];
+                delete fresh[`${item[0]}-${item[[1]]}`];
                 arr[item[0]][item[1]] = 2;
                 rotten.push({ i: item[0], j: item[1], minute: minute + 1 });
             }
@@ -36,8 +34,7 @@ function oranges(arr) {
             if (arr[i][j] === 2) {
                 rotten.push({ i, j, minute: 0 });
             } else if (arr[i][j] === 1) {
-                const key = `${i}-${j}`;
-                fresh[key] = 1;
+                fresh[`${i}-${j}`] = 1;
             }
         }
     }
@@ -65,7 +62,7 @@ function resolveDirections(arr) {
 const arr = [
     [2, 1, 1, 0, 0],
     [1, 1, 1, 0, 0],
-    [0, 0, 1, 1, 1],
+    [0, 1, 1, 1, 1],
     [0, 1, 0, 0, 1],
 ];
 
