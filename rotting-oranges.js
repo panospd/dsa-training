@@ -6,6 +6,11 @@ function rottingOranges(arr) {
 
     let maxMinutes = 0;
     while (rotten.length > 0) {
+        if (qLength === 0 && rotten.length > 0) {
+            maxMinutes++;
+            qLength = rotten.length;
+        }
+
         const { i, j } = rotten.shift();
         qLength--;
 
@@ -16,10 +21,6 @@ function rottingOranges(arr) {
                 arr[item[0]][item[1]] = 2;
                 rotten.push({ i: item[0], j: item[1] });
             }
-        }
-        if (qLength === 0 && rotten.length > 0) {
-            maxMinutes++;
-            qLength = rotten.length;
         }
     }
 
