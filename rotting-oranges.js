@@ -15,11 +15,11 @@ function rottingOranges(arr) {
                 fresh--;
                 arr[item[0]][item[1]] = 2;
                 rotten.push({ i: item[0], j: item[1] });
-                if (qLength === 0 && rotten.length > 0) {
-                    maxMinutes++;
-                    qLength = rotten.length;
-                }
             }
+        }
+        if (qLength === 0 && rotten.length > 0) {
+            maxMinutes++;
+            qLength = rotten.length;
         }
     }
 
@@ -67,4 +67,12 @@ const arr = [
     [0, 1, 0, 0, 1],
 ];
 
+const arr2 = [
+    [2, 0, 0, 0, 0],
+    [1, 1, 0, 0, 2],
+    [0, 1, 1, 1, 1],
+    [0, 1, 0, 0, 1],
+];
+
 console.log(rottingOranges(arr));
+console.log(rottingOranges(arr2));
