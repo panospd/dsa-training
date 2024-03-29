@@ -1,19 +1,24 @@
 function rottingOranges(arr) {
     let { rotten, fresh } = oranges(arr);
+    let qLength = rotten.length;
 
     const directions = resolveDirections(arr);
 
     let maxMinutes = 0;
     while (rotten.length > 0) {
-        const { i, j, minute } = rotten.shift();
-        maxMinutes = Math.max(maxMinutes, minute);
+        const { i, j } = rotten.shift();
+        qLength--;
 
         for (let dir in directions) {
             const item = directions[dir](i, j);
             if (item !== null && arr[item[0]][item[1]] === 1) {
                 fresh--;
                 arr[item[0]][item[1]] = 2;
-                rotten.push({ i: item[0], j: item[1], minute: minute + 1 });
+                rotten.push({ i: item[0], j: item[1] });
+                if (qLength === 0) {
+                    maxMinutes++;
+                    qLength = rotten.length;
+                }
             }
         }
     }
@@ -28,7 +33,7 @@ function oranges(arr) {
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[0].length; j++) {
             if (arr[i][j] === 2) {
-                rotten.push({ i, j, minute: 0 });
+                rotten.push({ i, j });
             } else if (arr[i][j] === 1) {
                 fresh++;
             }
