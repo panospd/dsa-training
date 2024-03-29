@@ -18,11 +18,7 @@ function rottingOranges(arr) {
         }
     }
 
-    if (fresh > 0) {
-        return -1;
-    }
-
-    return maxMinutes;
+    return fresh > 0 ? -1 : maxMinutes;
 }
 
 function oranges(arr) {
@@ -62,7 +58,7 @@ function resolveDirections(arr) {
 const arr = [
     [2, 1, 1, 0, 0],
     [1, 1, 1, 0, 0],
-    [0, 0, 1, 1, 1],
+    [0, 1, 1, 1, 1],
     [0, 1, 0, 0, 1],
 ];
 
