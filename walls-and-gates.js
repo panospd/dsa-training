@@ -1,61 +1,39 @@
 function wallsAndGates(arr) {
     console.log(arr);
-    const emptyRooms = getEmptyRooms(arr);
+    const gates = getGates(arr);
     const directions = resolveDirections(arr);
 
-    for (let i = 0; i < emptyRooms.length; i++) {
-        const room = emptyRooms[i];
-        arr[room[0]][room[1]] = paths(arr, room, directions, 0, []);
+    for (let i = 0; i < gates.length; i++) {
+        const room = gates[i];
+        paths(arr, room, directions, 0);
     }
 
     return arr;
 }
 
-function paths(arr, current, directions, steps, visited) {
+function paths(arr, current, directions, steps) {
+    if (current === null) return;
     const [i, j] = current;
 
-    if (arr[i][j] === -1) return Infinity;
-    if (arr[i][j] === 0) return steps;
-
-    const results = [];
+    if (steps > arr[i][j]) return;
+    arr[i][j] = steps;
 
     for (let dir in directions) {
-        const item = directions[dir](current);
-
-        if (item !== null && !alreadyVisitedAt(visited, item)) {
-            const pathVisited = [...visited];
-            markAsVisited(pathVisited, item);
-            const res = paths(arr, item, directions, steps + 1, pathVisited);
-            results.push(res);
-        }
+        paths(arr, directions[dir](current), directions, steps + 1);
     }
-
-    return Math.min(...results);
 }
 
-function markAsVisited(visited, [r, c]) {
-    if (visited[r] === undefined) {
-        visited[r] = {};
-    }
-
-    visited[r][c] = true;
-}
-
-function alreadyVisitedAt(visited, [r, c]) {
-    return visited[r] !== undefined && visited[r][c] != undefined;
-}
-
-function getEmptyRooms(arr) {
-    const empty = [];
+function getGates(arr) {
+    const gates = [];
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[0].length; j++) {
-            if (arr[i][j] === Infinity) {
-                empty.push([i, j]);
+            if (arr[i][j] === 0) {
+                gates.push([i, j]);
             }
         }
     }
 
-    return empty;
+    return gates;
 }
 
 function resolveDirections(arr) {
@@ -90,4 +68,4 @@ const arr2 = [
 ];
 
 console.log(wallsAndGates(arr));
-console.log(wallsAndGates(arr2));
+//console.log(wallsAndGates(arr2));
