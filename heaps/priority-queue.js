@@ -65,7 +65,7 @@ class PriorityQueue {
     }
 
     _compare(i, j) {
-        return this.comparator(this._heap[i], this._heap[j]);
+        return this._comparator(this._heap[i], this._heap[j]);
     }
 
     _siftDown() {
@@ -81,7 +81,7 @@ class PriorityQueue {
                 this._rightChild(nodeIndex) < this.size() &&
                 this._compare(
                     this._rightChild(nodeIndex),
-                    this._compare(this._leftChild(nodeIndex))
+                    this._leftChild(nodeIndex)
                 )
                     ? this._rightChild(nodeIndex)
                     : this._leftChild(nodeIndex);
