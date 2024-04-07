@@ -17,7 +17,6 @@ function delay(n, k, times) {
     heap.push(k - 1);
 
     while (!heap.isEmpty()) {
-        console.log(heap);
         const currentVertex = heap.pop();
         const children = graph[currentVertex];
 
