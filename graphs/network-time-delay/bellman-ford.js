@@ -2,13 +2,9 @@ function delay(n, k, times) {
     const distances = new Array(n).fill(Infinity);
     distances[k - 1] = 0;
 
-    let anyValueUpdated = true;
-    let count = 0;
-    while (anyValueUpdated) {
-        console.log(distances);
-        count++;
-        if (count > n - 1) return -1;
-        anyValueUpdated = false;
+    for (let count = 0; count < n - 1; count++) {
+        let anyValueUpdated = false;
+
         for (let time of times) {
             const [s, t, w] = time;
 
@@ -17,10 +13,11 @@ function delay(n, k, times) {
                 anyValueUpdated = true;
             }
         }
+
+        if (!anyValueUpdated) break;
     }
 
     const ans = Math.max(...distances);
-
     return ans === Infinity ? -1 : ans;
 }
 
@@ -33,6 +30,6 @@ console.log(
         [4, 5, 6],
         [3, 2, 3],
         [5, 3, 7],
-        [3, 1, -15],
+        [3, 1, 5],
     ])
 );
