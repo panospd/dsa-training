@@ -69,7 +69,7 @@ class PriorityQueue {
     }
 
     _siftDown() {
-        const nodeIndex = 0;
+        let nodeIndex = 0;
 
         while (
             (this._leftChild(nodeIndex) < this.size() &&
@@ -94,14 +94,4 @@ class PriorityQueue {
     }
 }
 
-const q = new PriorityQueue();
-
-q.push(50);
-q.push(45);
-q.push(35);
-q.push(55);
-q.push(57);
-
-while (q.peek()) {
-    console.log(q.pop());
-}
+exports.PriorityQueue = PriorityQueue;

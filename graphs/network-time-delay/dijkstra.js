@@ -1,51 +1,50 @@
-const priorityQueue = require("./priority-queue");
+const priorityQueue = require("../../heaps/priority-queue");
 
 function delay(n, k, times) {
-    const graph = {};
-    for (let i = 1; i <= n; i++) {
-        graph[i] = {};
-    }
+    const distances = new Array(n).fill(Infinity);
+    distances[k - 1] = 0;
+    const graph = distances.map(() => []);
 
     for (let time of times) {
-        graph[time[0]][time[1]] = time[2];
+        const [source, target, weight] = time;
+        graph[source - 1].push([target - 1, weight]);
     }
 
-    const nodeTimes = new Array(n).fill(Infinity);
+    const heap = new priorityQueue.PriorityQueue(
+        (a, b) => distances[a] < distances[b]
+    );
 
-    nodeTimes[k - 1] = 0;
-    const visited = [];
-    visited[k] = true;
-    const current = k;
+    heap.push(k - 1);
 
-    while (current !== null) {
-        const targets = graph[current];
+    while (!heap.isEmpty()) {
+        console.log(heap);
+        const currentVertex = heap.pop();
+        const children = graph[currentVertex];
 
-        for (let node in targets) {
-            const delay = targets[node];
-            if (visited(node)) continue;
-            if (nodeTimes[node - 1] > delay) {
-                nodeTimes[node - 1] = delay;
+        for (let i = 0; i < children.length; i++) {
+            const [child, weight] = children[i];
+
+            if (distances[currentVertex] + weight < distances[child]) {
+                distances[child] = distances[currentVertex] + weight;
+                heap.push(child);
             }
         }
     }
+
+    const ans = Math.max(...distances);
+
+    return ans === Infinity ? -1 : ans;
 }
 
-const q = new priorityQueue.PriorityQueue();
-
-console.log(q);
-
-q.push({ delay: 5, closed: false });
-console.log(q);
-
-// console.log(
-//     delay(5, 1, [
-//         [1, 2, 9],
-//         [1, 4, 2],
-//         [2, 5, 1],
-//         [4, 2, 18],
-//         [4, 5, 6],
-//         [3, 2, 3],
-//         [5, 3, 7],
-//         [3, 1, 5],
-//     ])
-// );
+console.log(
+    delay(5, 1, [
+        [1, 2, 9],
+        [1, 4, 2],
+        [2, 5, 1],
+        [4, 2, 4],
+        [4, 5, 6],
+        [3, 2, 3],
+        [5, 3, 7],
+        [3, 1, 5],
+    ])
+);
