@@ -1,33 +1,39 @@
 function knight(n, k, r, c) {
-    return probability(n, k, r, c);
+    const dp = new Array(k + 1)
+        .fill(0)
+        .map((i) =>
+            new Array(n).fill(0).map((i) => new Array(n).fill(undefined))
+        );
+    const res = probability(n, k, r, c, dp);
+    for (let arr of dp) {
+        console.log(arr);
+    }
+    return res;
 }
 
 function probability(n, k, r, c, dp) {
     if (outOfBoundsFor(n)([r, c])) return 0;
     if (k === 0) return 1;
 
+    if (get(dp, k, [r, c])) return get(dp, k, [r, c]);
+
     let result = 0;
 
     for (let move of moves([r, c])) {
-        result += knight(n, k - 1, move[0], move[1]) / 8;
+        result += probability(n, k - 1, move[0], move[1], dp) / 8;
     }
+
+    set(dp, k, [r, c], result);
 
     return result;
 }
 
-function get(dp, [i, j]) {
-    if (!dp[i]) return null;
-    if (!dp[i][j]) return null;
-
-    return dp[i][j];
+function get(dp, k, [i, j]) {
+    return dp[k][i][j];
 }
 
-function set(dp, [i, j], value) {
-    if (!dp[i]) {
-        dp[i] = [];
-    }
-
-    dp[i][j] = value;
+function set(dp, k, [i, j], value) {
+    dp[k][i][j] = value;
 }
 
 function outOfBoundsFor(n) {
