@@ -36,9 +36,6 @@ function outOfBoundsFor(n) {
     };
 }
 
-function outOfBounds([r, c]) {
-    return r < 0 || c < 0 || r >= n || c >= n;
-}
 function moves([i, j]) {
     return [
         [-2, -1],
